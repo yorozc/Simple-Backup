@@ -2,11 +2,12 @@
 __pycache__/
 *.py[codz]
 *$py.class
-backupEnv/
+backupEnv
 venv/
 .venv/
 env/
 ENV/
+.backupEnv
 
 # C extensions
 *.so
