@@ -27,17 +27,20 @@ source_dir = sys.argv[1]
 backup_directory = sys.argv[2]
 
 for item in os.listdir(source_dir):
+    
     full_path = os.path.join(source_dir, item) #construct full path for checks
+    if os.path.exists(full_path):
+        if os.path.isdir(full_path): #checks if dir
+            print(f'{item} is a directory')
+            shutil.move(full_path, backup_directory + f'/{item}')
 
-    if os.path.isdir(full_path): #checks if dir
-        print(f'{item} is a directory')
-        shutil.move(full_path, backup_directory + f'/{item}')
-
-    elif os.path.isfile(full_path): #checks if file
-        print(f'{item} is a file.')
-        shutil.move(full_path, backup_directory + f'/{item}')
-        
-    else: 
-        print(f'{item} is neither. {item} not moved.')
+        elif os.path.isfile(full_path): #checks if file
+            print(f'{item} is a file.')
+            shutil.move(full_path, backup_directory + f'/{item}')
+            
+        else: 
+            print(f'{item} is neither. {item} not moved.')
+    else:
+        print("Path does not exist.")
 
 print("Move complete!")
