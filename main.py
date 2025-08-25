@@ -1,14 +1,20 @@
 import os, shutil, sys
 
-home_directory = os.path.expanduser('~') #gets home dir
+# home_directory = os.path.expanduser('~') #gets home dir
+
+if len(sys.argv) < 3:
+    print("Usage: python main.py [source_directory] [backup_directory]")
+    sys.exit(1)
 
 #ask for which directory they want to back up
 
-source_dir = input("Insert source directory path:(absolute path) ")
+# source_dir = input("Insert source directory path:(absolute path) ")
+source_dir = sys.argv[1]
 
 #get directory that you want to back up to
 
-backup_directory = input("Input backup directory path:(absolute path) ")
+# backup_directory = input("Input backup directory path:(absolute path) ")
+backup_directory = sys.argv[2]
 
 for item in os.listdir(source_dir):
     full_path = os.path.join(source_dir, item) #construct full path for checks
@@ -24,3 +30,4 @@ for item in os.listdir(source_dir):
     else: 
         print(f'{item} is neither. {item} not moved.')
 
+print("Move complete!")
