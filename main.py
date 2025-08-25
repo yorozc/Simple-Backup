@@ -1,6 +1,16 @@
 import os, shutil, sys
 
-# home_directory = os.path.expanduser('~') #gets home dir
+
+def findExternalDrive(): #Used to find external drives for backup
+    externalPath = input("Please input path of drive locations\n"
+    "(Linux - /media/<username>) (Windows - <[A-Z]:\\>) \n:")
+    if os.path.exists(externalPath):
+        for drive in os.listdir(externalPath):
+            print(drive)
+    else:
+        print("Path does not exist.")
+
+findExternalDrive()
 
 if len(sys.argv) < 3:
     print("Usage: python main.py [source_directory] [backup_directory]")
