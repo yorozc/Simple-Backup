@@ -1,13 +1,15 @@
 import os, shutil, sys, getpass, pyinputplus as pypi
 
 # REMEMBER TO PUT IN README TO FORMAT TO NTFS DOES NO WORK IN exFAT
+# save user info through JSON format or txt file? (find best soltuion to save user information)
 
 def findExternalDrive(): #Used to find external drives for backup
     drives = os.listdir(f"/media/{getpass.getuser()}")
     print("Drives in /media directory: ",  drives) # shows users drives in media
     
-    if len(drives) > 1: 
-        print("No USB drives found. Make sure it is connected.")
+    if len(drives) < 1: 
+        print(f"No USB drives found. Make sure they are connected. Found in /media/{getpass.getuser()}")
+        sys.exit()
         return 
     else:
         driveChoice = pypi.inputChoice(drives, prompt="Please select one of the drives: ",blank=True)
@@ -15,8 +17,11 @@ def findExternalDrive(): #Used to find external drives for backup
         return driveChoice.upper()
 
 user_drive = findExternalDrive()
+
 backup_drive = f"/media/{getpass.getuser()}/{user_drive}"
+
 # prompt user for dir they want backed up and copy contents to drive
+
 # add some input validation later
 source_dir = pypi.inputFilepath(prompt="Please enter the absolute path of the directory: ")
 print(source_dir)
