@@ -24,13 +24,17 @@ def findExternalDrive(): #Used to find external drives for backup
 
 # add some input validation later
 def copyDirs(backup_drive: str):
-    source_dir = pypi.inputFilepath(prompt="Please enter the absolute path of the directory you want to backup:" \
-                                    "\n If multiple directories, separate with a space. ")
+    backup_drive = f"/media/{getpass.getuser()}/{backup_drive}"
+    source_dir = pypi.inputFilepath(prompt="Please enter the absolute path of the directory you want to backup" \
+                                    "\nIf multiple directories, separate with a space:  ")
     print(source_dir)
-
+    if " " in source_dir:
+        dir_list = source_dir.split(" ")
+    
     for item in os.listdir(source_dir):
 
         full_path = os.path.join(source_dir, item) #construct full path for checks
+        print(full_path)
         if os.path.exists(full_path):
 
             if os.path.isdir(full_path): #checks if dir
