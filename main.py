@@ -49,15 +49,16 @@ def copyDirs(backup_drive: str):
             except FileExistsError:
                 print("Directory/file already exists!")
                 continue
+    return dir_list
             
 def checkForJSON(backup_drive):
     pass
 
-def createJSON(backup_drive, directories):
+def createJSON(backup_drive: str, dir_list: list):
     with open("backup_config.json", 'w') as f:
         config = {
             "backup_drive": backup_drive,
-            "directories": []
+            "directories": dir_list
         }
         json.dump(config, f, indent=4)
 
