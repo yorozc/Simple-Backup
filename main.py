@@ -1,8 +1,10 @@
-import os, shutil, sys, getpass, pyinputplus as pypi
+import os, shutil, sys, getpass, pyinputplus as pypi, pathlib
 
 # REMEMBER TO PUT IN README TO FORMAT TO NTFS DOES NO WORK IN exFAT
 
 def findExternalDrive(): #Used to find external drives for backup
+    #change this to pypi -> pypi.inputMenu() 
+    #allow user to select drive with number rather than name
     drives = os.listdir(f"/media/{getpass.getuser()}")
     print("Drives in /media directory: ",  drives) # shows users drives in media
     
@@ -23,25 +25,31 @@ def copyDirs(backup_drive: str):
     backup_drive = f"/media/{getpass.getuser()}/{backup_drive}"
     source_dir = pypi.inputFilepath(prompt="Please enter the absolute path of the directory you want to backup" \
                                     "\nIf multiple directories, separate with a space:  ")
-    print(source_dir)
-    if " " in source_dir:
-        dir_list = source_dir.split(" ")
-    
-    for item in os.listdir(source_dir):
+    # print(source_dir)
+    dir_list =  source_dir.split(" ")
 
-        full_path = os.path.join(source_dir, item) #construct full path for checks
-        print(full_path)
-        if os.path.exists(full_path):
+   
+    for directory in dir_list: #go through each dir that user inputted
+        for item in os.listdir(directory):
+            full_path = os.path.join(directory, item) #construct full path for checks
+            print(full_path)
+            try:
+                if os.path.exists(full_path):
+                    if os.path.isdir(full_path): #checks if dir
+                        print(f'{item} is a directory. Backup complete.')
+                        shutil.copytree(full_path, backup_drive + f'/{item}')
 
-            if os.path.isdir(full_path): #checks if dir
-                print(f'{item} is a directory. Backup complete.')
-                shutil.copytree(full_path, backup_drive + f'/{item}')
-
-            elif os.path.isfile(full_path): #checks if file
-                print(f'{item} is a file. Backup complete.')
-                shutil.copy(full_path, backup_drive + f'/{item}')
-                
-            else: 
-                print(f'{item} is neither. {item} not moved.')
-        else:
-            print("Path does not exist.")
+                    elif os.path.isfile(full_path): #checks if file
+                        print(f'{item} is a file. Backup complete.')
+                        shutil.copy(full_path, backup_drive + f'/{item}')
+                        
+                    else: 
+                        print(f'{item} is neither. {item} not moved.')
+                else:
+                    print("Path does not exist.")
+                    
+            except FileExistsError:
+                print("Directory/file already exists!")
+                continue
+            
+        
