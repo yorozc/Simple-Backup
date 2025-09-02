@@ -1,10 +1,9 @@
-import os, shutil, sys, getpass, pyinputplus as pypi, pathlib
+import os, shutil, sys, getpass, pyinputplus as pypi, pathlib, json
 
 # REMEMBER TO PUT IN README TO FORMAT TO NTFS DOES NO WORK IN exFAT
 
 def findExternalDrive(): #Used to find external drives for backup
-    #change this to pypi -> pypi.inputMenu() 
-    #allow user to select drive with number rather than name
+    #try to show info of drive
     drives = os.listdir(f"/media/{getpass.getuser()}")
     print("Drives in /media directory: ",  drives) # shows users drives in media
     
@@ -13,7 +12,7 @@ def findExternalDrive(): #Used to find external drives for backup
         sys.exit()
         return 
     else:
-        driveChoice = pypi.inputChoice(drives, prompt="Please select one of the drives: ",blank=True)
+        driveChoice = pypi.inputMenu(drives, numbered=True, prompt="Please select one of the drives: \n",blank=True)
         print(f"Drive {driveChoice} is chosen. This is now your backup drive.")
         return driveChoice.upper()
 
@@ -28,7 +27,6 @@ def copyDirs(backup_drive: str):
     # print(source_dir)
     dir_list =  source_dir.split(" ")
 
-   
     for directory in dir_list: #go through each dir that user inputted
         for item in os.listdir(directory):
             full_path = os.path.join(directory, item) #construct full path for checks
@@ -44,12 +42,23 @@ def copyDirs(backup_drive: str):
                         shutil.copy(full_path, backup_drive + f'/{item}')
                         
                     else: 
-                        print(f'{item} is neither. {item} not moved.')
+                        print(f'{item} is not a file nor directory. {item} not moved.')
                 else:
                     print("Path does not exist.")
-                    
+
             except FileExistsError:
                 print("Directory/file already exists!")
                 continue
             
+def checkForJSON(backup_drive):
+    pass
+
+def createJSON(backup_drive, directories):
+    with open("backup_config.json", 'w') as f:
+        config = {
+            "backup_drive": backup_drive,
+            "directories": []
+        }
+        json.dump(config, f, indent=4)
+
         

@@ -25,3 +25,5 @@ else: # file doesn't exist, make user select drive and directories to backup
     print("====================================")
     main.copyDirs(backup_drive)
     print("====================================")
+    main.createJSON(backup_drive)
+    print("BackupDrive stored")
