@@ -16,7 +16,7 @@ print("===========================================")
 CONFIG_BACKUP = "backup_config.json"
 if os.path.exists(CONFIG_BACKUP):
     print("Config file found!")
-    drive, directories = main.getBackupDrive()
+    drive, directories = main.getConfigJSON()
     print(drive)
     main.backup_directory(drive, directories)
     print("Synced!")

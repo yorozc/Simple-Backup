@@ -62,7 +62,7 @@ def createJSON(backup_drive: str, dir_list: list):
         }
         json.dump(config, f, indent=4)
 
-def getBackupDrive():
+def getConfigJSON():
     currDir = os.getcwd()
     print(os.getcwd())
     configPath = os.path.join(currDir, "backup_config.json")
