@@ -50,9 +50,6 @@ def copyDirs(backup_drive: str):
                 print("Directory/file already exists!")
                 continue
     return dir_list
-            
-def checkForJSON(backup_drive):
-    pass
 
 def createJSON(backup_drive: str, dir_list: list):
     with open("backup_config.json", 'w') as f:
