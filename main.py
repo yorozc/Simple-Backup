@@ -26,7 +26,7 @@ def copyDirs(backup_drive: str):
     dir_list =  source_dir.split(" ")
 
     backup_directory(backup_drive, dir_list)
-    
+
     return dir_list
 
 def backup_directory(backup_drive: str, dir_list: list):
@@ -70,5 +70,13 @@ def getBackupDrive():
         with open(configPath, 'r') as f:
             data = json.load(f)
             return data['backup_drive']
+    
+def getDirectories():
+    currDir = os.getcwd()
+    configPath = os.path.join(currDir, "backup_config.json")
+    if os.path.exists(configPath):
+        with open(configPath, 'r') as f:
+            data = json.load(f)
+            return data['directories']
 
         

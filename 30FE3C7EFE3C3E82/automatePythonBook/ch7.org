@@ -1,0 +1,151 @@
+#+title: Ch7
+#+author: Yahir o
+#+description: Chapter 7 notes for "Pattern Matching with Regular Expressions"
+
+* Regular Expressions
+** Patterns that can be used to search text
+
+* isPhoneNumber.py
+** This program checks for american phone numbers via checking each chunk of numbers before and after the "-"
+** Main issue: 17 lines of code are used to find one specific pattern of phone numbers
+*** ###-###-####
+** Other patterns such as ###.###.#### or (###) ###-#### are never taken into account
+** Via the use of regular expressions, this can change
+
+* Finding Patterns of Text with Regular Expressions
+** regexes
+*** \d - digit char (0-9)
+*** \d\d\d-\d\d\d-\d\d\d\d is the same pattern that we used in "isPhoneNumber.py" (Very noob)
+*** \d{3}-\d{3}-\d{4} - matches the previous pattern
+** Re module
+*** Regex functions are found in the re module
+*** re.compile(<regex-pattern>) - compiles the pattern we want to search for
+**** Remember to use raw string (r'')
+*** re.compile().search(<string>) - searches for the pattern within the string that is passed as an argument
+*** mo= re.compile().search()
+**** mo.group() - returns the match, returns None if no match is found
+
+* Group() match object
+** separating different patterns with parentheses will make them into groups
+*** (r'(\d\d\d)-(\d\d\d\d)')
+** group(1) = \d\d\d
+** group(2) = \d\d\d\d
+*** group(0) = \d\d\d-\d\d\d\d
+- You can get different parts of the matched text
+** groups()
+ - Returns a tuple of the different groups separated by parentheses
+ - can use multiple-assignment to assign each value to a separate variable
+ - areaCode, mainNumber = mo.groups()
+
+* Escape characters
+- Some characters are reserved within regex so if you want them to be used as a part of the patter you have to use escape characters
+- Parentheses
+  - \(<Text>\) - This will make the parentheses apart of the pattern
+  - \., \^, \$, \*, \+, \? \{ \}, \[ \], \\, \|
+  - These are the characters that will require escape characters if wanted within the pattern
+
+* Matching multiple groups with the pipe
+- |
+- pipe character is used when you want to match at least one expression
+  - heroRegex = re.compile(r'Batman|Tina fey')
+  - mo1 = heroRegex.search('Batman and Tina Fey')
+  - mo1.group()
+    - Outputting this will show the first instance of the wanted pattern (Batman is first so 'Batman' will be printed)
+** Finding several patterns with pipe
+*** Searching for multiple words with the same prefix
+- batRegex = re.compile(r'Bat(man|mobile|copter|bat)')
+- This will search for a string that starts with Bat and will select the first instance of any of words within the group
+- Pipe and group allow us to specify several alternative patterns
+
+* Optional Matching with Question Mark
+** ()?
+- the question mark is placed after a group to make that group optional. If that bit of text exists then it will be returned but if not, the text around it will be returned
+- Ex: 'Bat(wo)?man'
+- "Match zero or one of the group preceding this question mark"
+
+* Matching Zero or More with the Star
+** "*" - asterisk
+- Match zero or more
+- The group that precedes the star can show up however many times in the text. It can be absent or repeated
+- re.compile(r'Bat(wo)*man')
+- Both 'Batwoman' & 'Batwowowoman' would be returned
+
+* Matching One or More with Plus
+** "+" - plus
+- Match one or more
+- Works similar to "*" but requires at least one of the matching pattern to return
+
+* Matching Specific Repetition with Braces
+** (){}
+- Braces after a group shows that you want to find a group that repeats a certain amount of times
+- (Ha){3} - You want to find the Ha pattern three times
+
+** (){,}
+- A range can also be given
+- (Ha){2,5} - Ha can show up 2, 3, 4, or 5 times and it will be a valid pattern
+
+* Greedy and Non-greedy Matching
+- In python, regular expressions return the longest string by default
+- (){,}? - This creates a non-greedy matching expression, will match shortest string possible
+- re.compile(r'(Ha){3,5}?') - Question mark makes expression non-greedy
+
+* findall() Method
+- search() returns the first matched text
+- findall() returns a list containing all of the matched strings
+  - If there are no groups then the list will contain only strings
+  - If there are groups then the list will contain tuples of strings that separate the groups
+
+* Character Classes
+- \d - numeric digit
+- \D - not a numeric digit
+- \w - any letter, numeric digit, or underscore
+- \W - not a letter, numeric digit, or underscore
+- \s - space, tab, or newline character
+- \S - not a space, tab, or newline character
+- Helps with shortening regular expressions
+
+* Making Your Own Character Classes
+- Can create own classes if the shorthand characters are too broad
+- create own character classes using brackets []
+- [aeiouAEIOU] - matches any vowel
+- [^aeiouAEIOU] - matches any non vowels
+  - the caret makes the contents of the bracket negative
+
+* Caret and Dollar sign
+- ^ can be used to mark that the regex pattern should appear at the beginning of the string
+- $ can be used to mark that the regex pattern should appear at the end of the string
+- ^<pattern>$ can be used to make sure that the regex pattern makes up the entire string
+- Ex: '^\d+$' - The entire string must a digit and there could be one or more digits
+
+* The WildCard Character
+- . (dot) matches any character except for newline
+- Matches only one character
+- '.at' - returns any word that ends with "at"
+
+* Matching Everything with Dot-Star
+- Works similarly to wildcard character
+- (.*) - the asterisk after the dot will allow more characters to match rather than just one character
+- There are greedy and non-greedy versions
+  - '<.*?>' - non-greedy will get the shortest text possible
+  - will look for text that starts with an open bracket and ends with a close brackeet
+  - '<.*>' - greedy, will look for longest text possible
+
+* Matching newlines with the dot
+- re.compile('.*', re.DOTALL) - this will get all the characters in the string along with the new line characters
+- if re.DOTALL is not included then it will get all characters until a newline character is met
+
+* Case-Insensitive Matching
+- re.compile(r'robocop', re.I)
+- matches the letters without any regard to capitalization
+
+* substituting strings with the sub() method
+- .sub(param1, param2)
+- first param is the string that will replace param2
+- Ex: names = re.compile(r'Agent (\w)\w*')
+- names.sub(r'\1***', 'Agent alice knew Agent carol was an agent.')
+- Returns: a*** knew c*** was an agent.
+
+* Managing complex regexes
+- re.VERBOSE
+- allows you to use multiline strings as an argument to re.compile()
+- re.compile(<regex>, re.VERBOSE)
