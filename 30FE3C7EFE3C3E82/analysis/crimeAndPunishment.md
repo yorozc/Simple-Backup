@@ -1,1 +1,0 @@
-# Crime and Punishment Analsysis
