@@ -70,14 +70,8 @@ def getBackupDrive():
         print(f"Drive located: {configPath}")
         with open(configPath, 'r') as f:
             data = json.load(f)
-            return data['backup_drive']
+            return data['backup_drive'], data['directories']
+    else:
+        print("Something went very wrong.")
     
-def getDirectories():
-    currDir = os.getcwd()
-    configPath = os.path.join(currDir, "backup_config.json")
-    if os.path.exists(configPath):
-        with open(configPath, 'r') as f:
-            data = json.load(f)
-            return data['directories']
-
         
