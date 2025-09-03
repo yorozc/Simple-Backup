@@ -30,6 +30,7 @@ def copyDirs(backup_drive: str):
     return dir_list
 
 def backup_directory(backup_drive: str, dir_list: list):
+    backup_drive = f"/media/{getpass.getuser()}/{backup_drive}"
     for directory in dir_list: #go through each dir that user inputted
         for item in os.listdir(directory):
             full_path = os.path.join(directory, item) #construct full path for checks
