@@ -16,8 +16,6 @@ def findExternalDrive(): #Used to find external drives for backup
         print(f"Drive {driveChoice} is chosen. This is now your backup drive.")
         return driveChoice.upper()
 
-
-
 # add some input validation later
 
 def copyDirs(backup_drive: str):
@@ -27,6 +25,11 @@ def copyDirs(backup_drive: str):
     # print(source_dir)
     dir_list =  source_dir.split(" ")
 
+    backup_directory(backup_drive, dir_list)
+    
+    return dir_list
+
+def backup_directory(backup_drive: str, dir_list: list):
     for directory in dir_list: #go through each dir that user inputted
         for item in os.listdir(directory):
             full_path = os.path.join(directory, item) #construct full path for checks
@@ -49,7 +52,6 @@ def copyDirs(backup_drive: str):
             except FileExistsError:
                 print("Directory/file already exists!")
                 continue
-    return dir_list
 
 def createJSON(backup_drive: str, dir_list: list):
     with open("backup_config.json", 'w') as f:
@@ -58,5 +60,15 @@ def createJSON(backup_drive: str, dir_list: list):
             "directories": dir_list
         }
         json.dump(config, f, indent=4)
+
+def getBackupDrive():
+    currDir = os.getcwd()
+    print(os.getcwd())
+    configPath = os.path.join(currDir, "backup_config.json")
+    if os.path.exists(configPath):
+        print(f"Drive located: {configPath}")
+        with open(configPath, 'r') as f:
+            data = json.load(f)
+            return data['backup_drive']
 
         
