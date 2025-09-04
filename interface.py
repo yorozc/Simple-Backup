@@ -12,7 +12,7 @@ print("|                                         |")
 print("|                                         |")
 print("===========================================")
 
-# check if user has config file in same dir to check if it is their first time
+# add options for user to add, edit, delete from config file
 if os.path.exists(os.path.join(os.getcwd(), "backup_config.json")):
     print("Config file found!")
     drive, directories = main.getConfigJSON() #returns tuple(drive, directories)

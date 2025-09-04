@@ -70,7 +70,6 @@ def createJSON(backup_drive: str, dir_list: list):
 
 def getConfigJSON():
     currDir = os.getcwd()
-    print(os.getcwd())
     configPath = os.path.join(currDir, "backup_config.json")
     if os.path.exists(configPath):
         print(f"Config located: {configPath}")
