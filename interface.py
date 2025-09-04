@@ -13,13 +13,15 @@ print("|                                         |")
 print("===========================================")
 
 # check if user has config file in same dir to check if it is their first time
-CONFIG_BACKUP = "backup_config.json"
-if os.path.exists(CONFIG_BACKUP):
+if os.path.exists(os.path.join(os.getcwd(), "backup_config.json")):
     print("Config file found!")
-    drive, directories = main.getConfigJSON()
-    print(drive)
-    main.backup_directory(drive, directories)
-    print("Synced!")
+    drive, directories = main.getConfigJSON() #returns tuple(drive, directories)
+    if main.isDrivePluggedIn(drive):
+        print(f"Drive {drive} found!")
+        main.backup_directory(drive, directories)
+        print("Synced!")
+    else:
+        print(f"Drive {drive} is not plugged in or is not mounted properly!")
 
 else: # file doesn't exist, make user select drive and directories to backup
     # save all user info to config and make option for user to rewrite or edit config
@@ -27,7 +29,7 @@ else: # file doesn't exist, make user select drive and directories to backup
     print("====================================")
     backup_drive = main.findExternalDrive() #chooses drive to backup on
     print("====================================")
-    dir_list = main.copyDirs(backup_drive)
+    dir_list = main.copyDirs(backup_drive) #setting up dirs to copy
     print("====================================")
-    main.createJSON(backup_drive, dir_list)
+    main.createJSON(backup_drive, dir_list) #creates config
     print("backup_config.json created!")

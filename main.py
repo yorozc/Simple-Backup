@@ -1,4 +1,4 @@
-import os, shutil, sys, getpass, pyinputplus as pypi, pathlib, json
+import os, shutil, sys, getpass, pyinputplus as pypi, json
 
 # REMEMBER TO PUT IN README TO FORMAT TO NTFS DOES NO WORK IN exFAT
 
@@ -15,6 +15,12 @@ def findExternalDrive(): #Used to find external drives for backup
         driveChoice = pypi.inputMenu(drives, numbered=True, prompt="Please select one of the drives: \n",blank=True)
         print(f"Drive {driveChoice} is chosen. This is now your backup drive.")
         return driveChoice.upper()
+    
+def isDrivePluggedIn(backup_drive: str) -> bool:
+    if os.path.exists(f"/media/{getpass.getuser()}/{backup_drive}"):
+        return True
+    else:
+        return False
 
 # add some input validation later
 
@@ -67,7 +73,7 @@ def getConfigJSON():
     print(os.getcwd())
     configPath = os.path.join(currDir, "backup_config.json")
     if os.path.exists(configPath):
-        print(f"Drive located: {configPath}")
+        print(f"Config located: {configPath}")
         with open(configPath, 'r') as f:
             data = json.load(f)
             return data['backup_drive'], data['directories']
