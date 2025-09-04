@@ -14,7 +14,7 @@ def findExternalDrive(): #Used to find external drives for backup
     else:
         driveChoice = pypi.inputMenu(drives, numbered=True, prompt="Please select one of the drives: \n",blank=True)
         print(f"Drive {driveChoice} is chosen. This is now your backup drive.")
-        return driveChoice.upper()
+        return driveChoice
     
 def isDrivePluggedIn(backup_drive: str) -> bool:
     if os.path.exists(f"/media/{getpass.getuser()}/{backup_drive}"):
@@ -35,12 +35,12 @@ def copyDirs(backup_drive: str):
 
     return dir_list
 
+# have it work in windows, try to get user home and then various drives
 def backup_directory(backup_drive: str, dir_list: list):
     backup_drive = f"/media/{getpass.getuser()}/{backup_drive}"
     for directory in dir_list: #go through each dir that user inputted
         for item in os.listdir(directory):
             full_path = os.path.join(directory, item) #construct full path for checks
-            print(full_path)
             try:
                 if os.path.exists(full_path):
                     if os.path.isdir(full_path): #checks if dir
@@ -67,6 +67,15 @@ def createJSON(backup_drive: str, dir_list: list):
             "directories": dir_list
         }
         json.dump(config, f, indent=4)
+
+def addDir():
+    pass
+
+def editDir():
+    pass
+
+def deleteDir():
+    pass
 
 def getConfigJSON():
     currDir = os.getcwd()

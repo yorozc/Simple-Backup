@@ -23,6 +23,8 @@ if os.path.exists(os.path.join(os.getcwd(), "backup_config.json")):
     else:
         print(f"Drive {drive} is not plugged in or is not mounted properly!")
 
+    # while loop that runs user options in terminal after sync?
+
 else: # file doesn't exist, make user select drive and directories to backup
     # save all user info to config and make option for user to rewrite or edit config
     print("Config is required during first run.")
