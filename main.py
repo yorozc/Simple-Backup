@@ -1,7 +1,8 @@
 import os, shutil, sys, getpass, pyinputplus as pypi, json
 
 def findExternalDrive() -> str: #Used to find external drives for backup
-    #try to show info of drive
+    # TODO: show info of drive
+    # TODO: make it cross platform (windows, linux, mac)
     drives = os.listdir(f"/media/{getpass.getuser()}")
     print("Drives in /media directory: ",  drives) # shows users drives in media
     
@@ -20,7 +21,7 @@ def isDrivePluggedIn(backup_drive: str) -> bool:
     else:
         return False
 
-# add some input validation later
+# TODO: provide more secure input validation and error correcting
 
 def copyDirs(backup_drive: str):
     source_dir = pypi.inputFilepath(prompt="Please enter the absolute path of the directory you want to backup" \
@@ -32,7 +33,7 @@ def copyDirs(backup_drive: str):
 
     return dir_list
 
-# have it work in windows, try to get user home and then various drives
+
 def backup_directory(backup_drive: str, dir_list: list):
     for directory in dir_list: #go through each dir that user inputted
         for item in os.listdir(directory):
@@ -57,13 +58,7 @@ def backup_directory(backup_drive: str, dir_list: list):
                 print("Directory/file already exists!")
                 continue
 
-def createJSON(backup_drive: str, dir_list: list):
-    with open("backup_config.json", 'w') as f:
-        config = {
-            "backup_drive": f"/media/{getpass.getuser()}/{backup_drive}",
-            "directories": dir_list
-        }
-        json.dump(config, f, indent=4)
+# TODO: set up these func to work with sys.args
 
 def addDir():
     pass
@@ -73,6 +68,20 @@ def editDir():
 
 def deleteDir():
     pass
+
+def help():
+    pass
+
+# TODO: fix path when made cross platform
+
+def createJSON(backup_drive: str, dir_list: list):
+    with open("backup_config.json", 'w') as f:
+        config = {
+            "backup_drive": f"/media/{getpass.getuser()}/{backup_drive}",
+            "directories": dir_list
+        }
+        json.dump(config, f, indent=4)
+
 
 def getConfigJSON():
     currDir = os.getcwd()
