@@ -24,9 +24,9 @@ if os.path.exists(os.path.join(os.getcwd(), "backup_config.json")):
         print(f"Drive {drive} is not plugged in or is not mounted properly!")
 
     # while loop that runs user options in terminal after sync?
+    # ^ instead make it so user can control it using args
 
 else: # file doesn't exist, make user select drive and directories to backup
-    # save all user info to config and make option for user to rewrite or edit config
     print("Config is required during first run.")
     print("====================================")
     backup_drive = main.findExternalDrive() #chooses drive to backup on

@@ -1,8 +1,6 @@
 import os, shutil, sys, getpass, pyinputplus as pypi, json
 
-# REMEMBER TO PUT IN README TO FORMAT TO NTFS DOES NO WORK IN exFAT
-
-def findExternalDrive(): #Used to find external drives for backup
+def findExternalDrive() -> str: #Used to find external drives for backup
     #try to show info of drive
     drives = os.listdir(f"/media/{getpass.getuser()}")
     print("Drives in /media directory: ",  drives) # shows users drives in media
@@ -25,7 +23,6 @@ def isDrivePluggedIn(backup_drive: str) -> bool:
 # add some input validation later
 
 def copyDirs(backup_drive: str):
-    backup_drive = f"/media/{getpass.getuser()}/{backup_drive}"
     source_dir = pypi.inputFilepath(prompt="Please enter the absolute path of the directory you want to backup" \
                                     "\nIf multiple directories, separate with a space:  ")
     # print(source_dir)
@@ -37,12 +34,12 @@ def copyDirs(backup_drive: str):
 
 # have it work in windows, try to get user home and then various drives
 def backup_directory(backup_drive: str, dir_list: list):
-    backup_drive = f"/media/{getpass.getuser()}/{backup_drive}"
     for directory in dir_list: #go through each dir that user inputted
         for item in os.listdir(directory):
             full_path = os.path.join(directory, item) #construct full path for checks
             try:
                 if os.path.exists(full_path):
+                    print(full_path)
                     if os.path.isdir(full_path): #checks if dir
                         print(f'{item} is a directory. Backup complete.')
                         shutil.copytree(full_path, backup_drive + f'/{item}')
@@ -63,7 +60,7 @@ def backup_directory(backup_drive: str, dir_list: list):
 def createJSON(backup_drive: str, dir_list: list):
     with open("backup_config.json", 'w') as f:
         config = {
-            "backup_drive": backup_drive,
+            "backup_drive": f"/media/{getpass.getuser()}/{backup_drive}",
             "directories": dir_list
         }
         json.dump(config, f, indent=4)
