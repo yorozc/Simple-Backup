@@ -1,6 +1,5 @@
 # cmd line interface
-import main
-import os
+import main, os, sys
 
 print("===========================================")
 print("|                                         |")
