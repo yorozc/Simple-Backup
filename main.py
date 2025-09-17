@@ -60,8 +60,12 @@ def backup_directory(backup_drive: str, dir_list: list):
 
 # TODO: set up these func to work with sys.args
 
-def addDir():
-    pass
+def addDir(newDirs: list) -> None:
+    drive, directories = getConfigJSON()
+    for dir in newDirs:
+        directories.append(dir)
+    print(directories)
+
 
 def editDir():
     pass

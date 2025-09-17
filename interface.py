@@ -22,8 +22,19 @@ if os.path.exists(os.path.join(os.getcwd(), "backup_config.json")):
     else:
         print(f"Drive {drive} is not plugged in or is not mounted properly!")
 
-    # while loop that runs user options in terminal after sync?
-    # ^ instead make it so user can control it using args
+    # TODO: allow user to add, delete, or edit name of dir using sys args
+    if len(sys.argv) > 1:
+        
+        operation = sys.argv[1]
+        match operation:
+            case "add":
+                pass
+            case "delete":
+                pass
+            case "edit":
+                pass
+            case "help":
+                pass
 
 else: # file doesn't exist, make user select drive and directories to backup
     print("Config is required during first run.")
