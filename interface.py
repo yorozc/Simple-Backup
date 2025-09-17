@@ -24,11 +24,11 @@ if os.path.exists(os.path.join(os.getcwd(), "backup_config.json")):
 
     # TODO: allow user to add, delete, or edit name of dir using sys args
     if len(sys.argv) > 1:
-        
+
         operation = sys.argv[1]
         match operation:
             case "add":
-                pass
+                main.addDir(sys.argv[2:])
             case "delete":
                 pass
             case "edit":

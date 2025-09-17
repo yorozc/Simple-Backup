@@ -16,7 +16,7 @@ def findExternalDrive() -> str: #Used to find external drives for backup
         return driveChoice
     
 def isDrivePluggedIn(backup_drive: str) -> bool:
-    if os.path.exists(f"/media/{getpass.getuser()}/{backup_drive}"):
+    if os.path.exists(backup_drive):
         return True
     else:
         return False
@@ -36,9 +36,9 @@ def copyDirs(backup_drive: str):
 
 def backup_directory(backup_drive: str, dir_list: list):
     for directory in dir_list: #go through each dir that user inputted
-        for item in os.listdir(directory):
-            full_path = os.path.join(directory, item) #construct full path for checks
-            try:
+        try:
+            for item in os.listdir(directory):
+                full_path = os.path.join(directory, item) #construct full path for checks
                 if os.path.exists(full_path):
                     print(full_path)
                     if os.path.isdir(full_path): #checks if dir
@@ -54,9 +54,13 @@ def backup_directory(backup_drive: str, dir_list: list):
                 else:
                     print("Path does not exist.")
 
-            except FileExistsError:
-                print("Directory/file already exists!")
-                continue
+        except FileExistsError:
+            print("Directory/file already exists!")
+            continue
+
+        except FileNotFoundError:
+            print("File does not exist or path is wrong!")
+            continue
 
 # TODO: set up these func to work with sys.args
 
@@ -65,6 +69,8 @@ def addDir(newDirs: list) -> None:
     for dir in newDirs:
         directories.append(dir)
     print(directories)
+
+    # TODO: write to config file
 
 
 def editDir():
