@@ -1,4 +1,5 @@
 import os, shutil, sys, getpass, pyinputplus as pypi, json
+from pathlib import Path
 
 def findExternalDrive() -> str: #Used to find external drives for backup
     # TODO: show info of drive
@@ -66,9 +67,20 @@ def backup_directory(backup_drive: str, dir_list: list):
 
 def addDir(newDirs: list) -> None:
     drive, directories = getConfigJSON()
+    home = Path.home()
     for dir in newDirs:
-        # TODO: Check if directories exist before adding to config
-        directories.append(dir)
+        dir = dir.lstrip("/") # gets rid of leftmost slash for concatenation
+        full_path = home / dir
+
+        if os.path.exists(full_path):
+            print("Directory found!")
+            print(full_path)
+            directories.append(str(full_path))
+            print("Added to backup_config.json!")
+        else:
+            print("Directory or path does not exist!")
+            print(full_path)
+
     print(directories)
 
     # TODO: write to config file
