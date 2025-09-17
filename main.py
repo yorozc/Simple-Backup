@@ -92,6 +92,9 @@ def editDir():
 def deleteDir():
     pass
 
+def sync(): # call func through sysarg to manually back up new/updateds files or dirs
+    pass
+
 def help():
     pass
 
