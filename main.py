@@ -67,6 +67,7 @@ def backup_directory(backup_drive: str, dir_list: list):
 def addDir(newDirs: list) -> None:
     drive, directories = getConfigJSON()
     for dir in newDirs:
+        # TODO: Check if directories exist before adding to config
         directories.append(dir)
     print(directories)
 
