@@ -15,10 +15,9 @@ print("===========================================")
 if os.path.exists(os.path.join(os.getcwd(), "backup_config.json")):
     print("Config file found!")
     drive, directories = main.getConfigJSON() #returns tuple(drive, directories)
+
     if main.isDrivePluggedIn(drive):
         print(f"Drive {drive} found!")
-        main.backup_directory(drive, directories)
-        print("Synced!")
     else:
         print(f"Drive {drive} is not plugged in or is not mounted properly!")
 

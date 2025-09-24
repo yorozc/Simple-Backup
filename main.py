@@ -44,11 +44,12 @@ def backup_directory(backup_drive: str, dir_list: list):
                     print(full_path)
                     if os.path.isdir(full_path): #checks if dir
                         print(f'{item} is a directory. Backup complete.')
-                        shutil.copytree(full_path, backup_drive + f'/{item}')
+                        print(full_path)
+                        shutil.copytree(full_path, os.path.join(backup_drive, item), dirs_exist_ok=True)
 
                     elif os.path.isfile(full_path): #checks if file
                         print(f'{item} is a file. Backup complete.')
-                        shutil.copy(full_path, backup_drive + f'/{item}')
+                        shutil.copy(full_path, os.path.join(backup_drive, item))
                         
                     else: 
                         print(f'{item} is not a file nor directory. {item} not moved.')
@@ -56,12 +57,15 @@ def backup_directory(backup_drive: str, dir_list: list):
                     print("Path does not exist.")
 
         except FileExistsError:
-            print("Directory/file already exists!")
-            continue
+            print("File already exists!")
+            
+            
 
         except FileNotFoundError:
             print("File does not exist or path is wrong!")
-            continue
+            
+        except Exception as e:
+            print(f"Error: {e}")
 
 # TODO: set up these func to work with sys.args
 
