@@ -30,9 +30,12 @@ if os.path.exists(os.path.join(os.getcwd(), "backup_config.json")):
             case "add":
                 main.addDir(sys.argv[2:])
             case "delete":
-                pass
+                main.deleteDir(sys.argv[2:])
             case "edit":
                 pass
+            case "sync":
+                main.backup_directory(drive, directories)
+                print("Synced")
             case "help":
                 pass
 
