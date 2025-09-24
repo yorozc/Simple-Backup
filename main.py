@@ -89,10 +89,6 @@ def addDir(newDirs: list) -> None:
 
     # TODO: write to config file
 
-
-def editDir():
-    pass
-
 def deleteDir(dirs: list) -> None:
     drive, directories = getConfigJSON()
     for del_dir in dirs:
@@ -106,6 +102,9 @@ def help():
     pass
 
 # TODO: fix path when made cross platform
+
+def writeJSON():
+    pass
 
 def createJSON(backup_drive: str, dir_list: list):
     with open("backup_config.json", 'w') as f:

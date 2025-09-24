@@ -34,7 +34,8 @@ if os.path.exists(os.path.join(os.getcwd(), "backup_config.json")):
                 pass
             case "sync":
                 main.backup_directory(drive, directories)
-                print("Synced")
+                print("==========================")
+                print("Synced!")
             case "help":
                 pass
 
