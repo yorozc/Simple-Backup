@@ -93,8 +93,14 @@ def addDir(newDirs: list) -> None:
 def editDir():
     pass
 
-def deleteDir():
-    pass
+def deleteDir(dirs: list) -> None:
+    drive, directories = getConfigJSON()
+    for del_dir in dirs:
+        if del_dir in directories:
+            directories.remove(del_dir)
+            print(f"{del_dir} deleted!")
+    
+    # TODO: write removal to config
 
 def help():
     pass
@@ -110,7 +116,7 @@ def createJSON(backup_drive: str, dir_list: list):
         json.dump(config, f, indent=4)
 
 
-def getConfigJSON():
+def getConfigJSON() -> str | list:
     currDir = os.getcwd()
     configPath = os.path.join(currDir, "backup_config.json")
     if os.path.exists(configPath):
