@@ -24,7 +24,7 @@ def isDrivePluggedIn(backup_drive: str) -> bool:
 
 # TODO: provide more secure input validation and error correcting
 
-def copyDirs(backup_drive: str):
+def copyDirs(backup_drive: str) -> list:
     source_dir = pypi.inputFilepath(prompt="Please enter the absolute path of the directory you want to backup" \
                                     "\nIf multiple directories, separate with a space:  ")
     # print(source_dir)
@@ -35,7 +35,7 @@ def copyDirs(backup_drive: str):
     return dir_list
 
 
-def backup_directory(backup_drive: str, dir_list: list):
+def backup_directory(backup_drive: str, dir_list: list) -> None:
     for directory in dir_list: #go through each dir that user inputted
         try:
             for item in os.listdir(directory):
@@ -89,12 +89,14 @@ def addDir(newDirs: list) -> None:
 
     changeDirectoriesJSON(directories)
 
-def deleteDir(dirs: list) -> None:
+def deleteDir(dirs: list) -> None: #deletes dirs that are located in backup_config
     drive, directories = getConfigJSON()
     for del_dir in dirs:
         if del_dir in directories:
             directories.remove(del_dir)
             print(f"{del_dir} deleted!")
+        else:
+            print(f"{del_dir} not found in config!")
     
     changeDirectoriesJSON(directories)
 
@@ -103,7 +105,7 @@ def help():
 
 # TODO: fix path when made cross platform
 
-def changeDirectoriesJSON(directories: list):
+def changeDirectoriesJSON(directories: list) -> None:
     currDir = os.getcwd()
     configPath = os.path.join(currDir, "backup_config.json")
 
@@ -115,7 +117,7 @@ def changeDirectoriesJSON(directories: list):
     with open(configPath, 'w') as f:
         json.dump(data, f, indent=4)
 
-def createJSON(backup_drive: str, dir_list: list):
+def createJSON(backup_drive: str, dir_list: list) -> None:
     currDir = os.getcwd()
     configPath = os.path.join(currDir, "backup_config.json")
     with open(configPath, 'w') as f:
