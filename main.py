@@ -71,23 +71,27 @@ def backup_directory(backup_drive: str, dir_list: list):
 
 def addDir(newDirs: list) -> None:
     drive, directories = getConfigJSON()
+
     home = Path.home()
     for dir in newDirs:
-        dir = dir.lstrip("/") # gets rid of leftmost slash for concatenation
-        full_path = home / dir
 
-        if os.path.exists(full_path):
+        if os.path.exists(dir):
             print("Directory found!")
-            print(full_path)
-            directories.append(str(full_path))
+            print(dir)
+            directories.append(str(dir))
             print("Added to backup_config.json!")
         else:
             print("Directory or path does not exist!")
-            print(full_path)
+            print(dir)
+
+    backup_directory(drive, directories)
 
     print(directories)
+    
 
-    # TODO: write to config file
+    # TODO: write directories to config file
+
+    writeJSON(directories)
 
 def deleteDir(dirs: list) -> None:
     drive, directories = getConfigJSON()
@@ -103,17 +107,27 @@ def help():
 
 # TODO: fix path when made cross platform
 
-def writeJSON():
-    pass
+def writeJSON(directories: list):
+    currDir = os.getcwd()
+    configPath = os.path.join(currDir, "backup_config.json")
+
+    with open(configPath, 'r') as f:
+        data = json.load(f)
+
+    data['directories'] = directories
+
+    with open(configPath, 'w') as f:
+        json.dump(data, f, indent=4)
 
 def createJSON(backup_drive: str, dir_list: list):
-    with open("backup_config.json", 'w') as f:
+    currDir = os.getcwd()
+    configPath = os.path.join(currDir, "backup_config.json")
+    with open(configPath, 'w') as f:
         config = {
             "backup_drive": f"/media/{getpass.getuser()}/{backup_drive}",
             "directories": dir_list
         }
         json.dump(config, f, indent=4)
-
 
 def getConfigJSON() -> str | list:
     currDir = os.getcwd()
