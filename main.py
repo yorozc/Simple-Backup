@@ -72,7 +72,6 @@ def backup_directory(backup_drive: str, dir_list: list):
 def addDir(newDirs: list) -> None:
     drive, directories = getConfigJSON()
 
-    home = Path.home()
     for dir in newDirs:
 
         if os.path.exists(dir):
@@ -87,11 +86,8 @@ def addDir(newDirs: list) -> None:
     backup_directory(drive, directories)
 
     print(directories)
-    
 
-    # TODO: write directories to config file
-
-    writeJSON(directories)
+    changeDirectoriesJSON(directories)
 
 def deleteDir(dirs: list) -> None:
     drive, directories = getConfigJSON()
@@ -100,14 +96,14 @@ def deleteDir(dirs: list) -> None:
             directories.remove(del_dir)
             print(f"{del_dir} deleted!")
     
-    # TODO: write removal to config
+    changeDirectoriesJSON(directories)
 
 def help():
     pass
 
 # TODO: fix path when made cross platform
 
-def writeJSON(directories: list):
+def changeDirectoriesJSON(directories: list):
     currDir = os.getcwd()
     configPath = os.path.join(currDir, "backup_config.json")
 
