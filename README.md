@@ -7,6 +7,14 @@ A simple python script that was created to automatically backup files to my usb 
     - Do not move or delete config file from where the application is stored
 
 ## Usage after configuration
-- Add cmd
-    - python3 [name.py] add [list of dirs... "/home/usr/tst1" "/home/usr/tst2/tut"]
-    - Type space between each directory you want to add
+- add
+    - python3 [name.py] add [directories... "/home/usr/tst1" "/home/usr/tst2/tut"]
+    - Adds directories to config
+- delete
+    - python3 [name.py] delete [directories... "/home/usr/tst1" "/home/usr/tst2/tut"]
+    - Deletes directories from config
+- sync
+    - python3 [name.py] sync
+    - Backs up all directories and files from the directories inputted into selected drive
+- help
+    - displays uses of commands
