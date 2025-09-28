@@ -35,7 +35,12 @@ if os.path.exists(os.path.join(os.getcwd(), "backup_config.json")):
                 print("==========================")
                 print("Synced!")
             case "help":
-                print("")
+                # may change when i learn more about executables
+                print("Usage: python3 app.py [option] [directories]...")
+                print("[add] - if directory exists, adds to config and backs up to drive")
+                print("[delete] - if directory exists, deletes directory from config")
+                print("[sync] - syncs directories and drive")
+                print("[help] - displays options and their uses")
 
 else: # file doesn't exist, make user select drive and directories to backup
     print("Config is required during first run.")
