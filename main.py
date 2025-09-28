@@ -100,8 +100,6 @@ def deleteDir(dirs: list) -> None: #deletes dirs that are located in backup_conf
     
     changeDirectoriesJSON(directories)
 
-def help():
-    pass
 
 # TODO: fix path when made cross platform
 

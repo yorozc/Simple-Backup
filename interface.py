@@ -35,7 +35,7 @@ if os.path.exists(os.path.join(os.getcwd(), "backup_config.json")):
                 print("==========================")
                 print("Synced!")
             case "help":
-                pass
+                print("")
 
 else: # file doesn't exist, make user select drive and directories to backup
     print("Config is required during first run.")
